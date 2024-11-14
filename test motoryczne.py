@@ -169,7 +169,7 @@ class MainWindow(tk.Tk):
     def test_1(self):
         # initialize pygame
         pygame.init()
-
+        # Tu jest kod
         # set up the window
         screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("Test 1")

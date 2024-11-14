@@ -10,100 +10,100 @@ import matplotlib.pyplot as plt
 
 
 sys.setrecursionlimit(10000)
-class show_test2:
-    def test_2(self):
-        pygame.init()
-        p= pyaudio.PyAudio()
+# class show_test2:
+#     def test_2(self):
+#         pygame.init()
+#         p= pyaudio.PyAudio()
 
-        screen = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Test 2")
+#         screen = pygame.display.set_mode((800, 600))
+#         pygame.display.set_caption("Test 2")
 
-        WHITE = (255, 255, 255)
-        BLACK = (0, 0, 0)
-        RED = (255, 0, 0)
+#         WHITE = (255, 255, 255)
+#         BLACK = (0, 0, 0)
+#         RED = (255, 0, 0)
 
-        fs= 44100 #sampling rate
-        duration = 0.5
-        f1 = 500
-        f2 = 1000
-        t= np.linspace(0, duration, int(duration * fs), False)  # time array
-        audio_stimulus1 = np.sin(f1 * 2 * np.pi * t)  # audio stimulus 1 (sine wave)
-        audio_stimulus2 = np.sin(f2 * 2 * np.pi * t)  # audio stimulus 2 (sine wave)
+#         fs= 44100 #sampling rate
+#         duration = 0.5
+#         f1 = 500
+#         f2 = 1000
+#         t= np.linspace(0, duration, int(duration * fs), False)  # time array
+#         audio_stimulus1 = np.sin(f1 * 2 * np.pi * t)  # audio stimulus 1 (sine wave)
+#         audio_stimulus2 = np.sin(f2 * 2 * np.pi * t)  # audio stimulus 2 (sine wave)
 
-        screen.fill(WHITE)
+#         screen.fill(WHITE)
 
-        pygame.draw.rect(screen, RED, (350, 250, 100, 100))
+#         pygame.draw.rect(screen, RED, (350, 250, 100, 100))
 
-        stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
-        stream.write(audio_stimulus1.astype(np.float32).tobytes())
-        stream.stop_stream()
-        stream.close()
+#         stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
+#         stream.write(audio_stimulus1.astype(np.float32).tobytes())
+#         stream.stop_stream()
+#         stream.close()
 
-        pygame.display.update()
-        pygame.display.flip()
+#         pygame.display.update()
+#         pygame.display.flip()
 
-        start_time = time.time()
-        event_found = False
-        while not event_found:
-             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time3 = end_time - start_time
-                    event_found = True
-                    break
+#         start_time = time.time()
+#         event_found = False
+#         while not event_found:
+#              for event in pygame.event.get():
+#                 if event.type == pygame.MOUSEBUTTONDOWN:
+#                     end_time = time.time()
+#                     reaction_time3 = end_time - start_time
+#                     event_found = True
+#                     break
             
 
         
-        screen.fill(WHITE)
+#         screen.fill(WHITE)
 
-        # draw a red circle
-        pygame.draw.circle(screen, RED, (400, 300), 50)
+#         # draw a red circle
+#         pygame.draw.circle(screen, RED, (400, 300), 50)
 
-        # play audio stimulus 2
-        stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
-        stream.write(audio_stimulus2.astype(np.float32).tobytes())
-        stream.stop_stream()
-        stream.close()
+#         # play audio stimulus 2
+#         stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
+#         stream.write(audio_stimulus2.astype(np.float32).tobytes())
+#         stream.stop_stream()
+#         stream.close()
 
-        # update the screen
-        pygame.display.update()
-        pygame.display.flip()
+#         # update the screen
+#         pygame.display.update()
+#         pygame.display.flip()
 
-        # wait for a reaction
-        start_time = time.time()
-        event_found = False
-        while not event_found:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time2 = end_time - start_time
-                    event_found = True
-                    break
+#         # wait for a reaction
+#         start_time = time.time()
+#         event_found = False
+#         while not event_found:
+#             for event in pygame.event.get():
+#                 if event.type == pygame.MOUSEBUTTONDOWN:
+#                     end_time = time.time()
+#                     reaction_time2 = end_time - start_time
+#                     event_found = True
+#                     break
 
         
-        # calculate average reaction time and display it'
-        self.dialog = tk.Toplevel()
-        self.dialog.geometry("800x300")
+#         # calculate average reaction time and display it'
+#         self.dialog = tk.Toplevel()
+#         self.dialog.geometry("800x300")
 
-        self.label= tk.Label(self.dialog, text= f"Your reaction time in test 1 is {reaction_time3:.3f} seconds.")
-        self.label.pack()
+#         self.label= tk.Label(self.dialog, text= f"Your reaction time in test 1 is {reaction_time3:.3f} seconds.")
+#         self.label.pack()
 
-        self.label= tk.Label(self.dialog, text= f"Your reaction time in test 2 is {reaction_time2:.3f} seconds.")
-        self.label.pack()
+#         self.label= tk.Label(self.dialog, text= f"Your reaction time in test 2 is {reaction_time2:.3f} seconds.")
+#         self.label.pack()
 
-        total_reaction_time = reaction_time3 + reaction_time2
-        self.label= tk.Label(self.dialog, text= f"Your total reaction time is {total_reaction_time:.3f} seconds.")
-        self.label.pack()
+#         total_reaction_time = reaction_time3 + reaction_time2
+#         self.label= tk.Label(self.dialog, text= f"Your total reaction time is {total_reaction_time:.3f} seconds.")
+#         self.label.pack()
         
-        avg_reaction_time = (reaction_time3 + reaction_time2) / 2
-        self.label= tk.Label(self.dialog,text=f"Your average reaction time is {avg_reaction_time:.3f} seconds.")
-        self.label.pack()
-        self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog3)
-        self.close_button.pack()
+#         avg_reaction_time = (reaction_time3 + reaction_time2) / 2
+#         self.label= tk.Label(self.dialog,text=f"Your average reaction time is {avg_reaction_time:.3f} seconds.")
+#         self.label.pack()
+#         self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog3)
+#         self.close_button.pack()
 
-         # clean up Pygame and Pyaudio
-        p.terminate()
-        pygame.quit()
+#          # clean up Pygame and Pyaudio
+#         p.terminate()
+#         pygame.quit()
 
 
 class IntroductionDialog:
@@ -300,22 +300,22 @@ class MainWindow(tk.Tk):
         self.label.pack()
         self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog1)
         self.close_button.pack()
-    
-    def show_results(self):
-        accuracy = (correct / total) * 100
-        print(f"Accuracy: {accuracy:.2f}%")
-        precision = (tp / (tp + fp)) * 100
-        print(f"Precision: {precision:.2f}%")
-        recall = (tp / (tp + fn)) * 100
-        print(f"Recall: {recall:.2f}%")
+    #TODO: Trzeba przerobić funckję od zera
+    # def show_results(self):
+    #     accuracy = (correct / total) * 100
+    #     print(f"Accuracy: {accuracy:.2f}%")
+    #     precision = (tp / (tp + fp)) * 100
+    #     print(f"Precision: {precision:.2f}%")
+    #     recall = (tp / (tp + fn)) * 100
+    #     print(f"Recall: {recall:.2f}%")
 
-        # create a bar chart to display results
-        labels = ["Accuracy", "Precision", "Recall"]
-        values = [accuracy, precision, recall]
-        plt.bar(labels, values)
-        plt.title("Results")
-        plt.ylabel("Percentage")
-        plt.show()
+    #     # create a bar chart to display results
+    #     labels = ["Accuracy", "Precision", "Recall"]
+    #     values = [accuracy, precision, recall]
+    #     plt.bar(labels, values)
+    #     plt.title("Results")
+    #     plt.ylabel("Percentage")
+    #     plt.show()
     
          
 

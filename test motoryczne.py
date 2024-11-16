@@ -256,50 +256,52 @@ class MainWindow(tk.Tk):
         
         screen.fill(WHITE)
 
-        # draw a red circle
-        pygame.draw.circle(screen, RED, (400, 300), 50)
+        # # draw a red circle
+        # pygame.draw.circle(screen, RED, (400, 300), 50)
 
-        # play audio stimulus 2
-        stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
-        stream.write(audio_stimulus2.astype(np.float32).tobytes())
-        stream.stop_stream()
-        stream.close()
+        # # play audio stimulus 2
+        # stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
+        # stream.write(audio_stimulus2.astype(np.float32).tobytes())
+        # stream.stop_stream()
+        # stream.close()
 
-        # update the screen
-        pygame.display.update()
-        pygame.display.flip()
+        # # update the screen
+        # pygame.display.update()
+        # pygame.display.flip()
 
-        # wait for a reaction
-        start_time = time.time()
-        event_found = False
-        while not event_found:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time2 = end_time - start_time
-                    event_found = True
-                    break
+        # # wait for a reaction
+        # start_time = time.time()
+        # event_found = False
+        # while not event_found:
+        #     for event in pygame.event.get():
+        #         if event.type == pygame.MOUSEBUTTONDOWN:
+        #             end_time = time.time()
+        #             reaction_time2 = end_time - start_time
+        #             event_found = True
+        #             break
 
         
         # calculate average reaction time and display it'
-        self.dialog = tk.Toplevel()
-        self.dialog.geometry("400x300")
+        # self.dialog = tk.Toplevel()
+        # self.dialog.geometry("400x300")
 
-        self.label= tk.Label(self.dialog, text= f"Your reaction time in test 1 is {reaction_time3:.3f} seconds.")
-        self.label.pack()
+        # self.label= tk.Label(self.dialog, text= f"Your reaction time in test 1 is {reaction_time3:.3f} seconds.")
+        # self.label.pack()
 
-        self.label= tk.Label(self.dialog, text= f"Your reaction time in test 2 is {reaction_time2:.3f} seconds.")
-        self.label.pack()
+        # self.label= tk.Label(self.dialog, text= f"Your reaction time in test 2 is {reaction_time2:.3f} seconds.")
+        # self.label.pack()
 
-        total_reaction_time = reaction_time3 + reaction_time2
-        self.label= tk.Label(self.dialog, text= f"Your total reaction time is {total_reaction_time:.3f} seconds.")
-        self.label.pack()
+        # total_reaction_time = reaction_time3 + reaction_time2
+        # self.label= tk.Label(self.dialog, text= f"Your total reaction time is {total_reaction_time:.3f} seconds.")
+        # self.label.pack()
         
-        avg_reaction_time = (reaction_time3 + reaction_time2) / 2
-        self.label= tk.Label(self.dialog,text=f"Your average reaction time is {avg_reaction_time:.3f} seconds.")
-        self.label.pack()
-        self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog1)
-        self.close_button.pack()
+        # avg_reaction_time = (reaction_time3 + reaction_time2) / 2
+        # self.label= tk.Label(self.dialog,text=f"Your average reaction time is {avg_reaction_time:.3f} seconds.")
+        # self.label.pack()
+        # self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog1)
+        # self.close_button.pack()
+
+
     #TODO: Trzeba przerobić funckję od zera
     # def show_results(self):
     #     accuracy = (correct / total) * 100

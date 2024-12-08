@@ -107,6 +107,7 @@ class Test1:
 
     def run_test(self):
         
+        self.tutorial_menu()
         for i in range(3):
             self.draw_circle(i+1)
 

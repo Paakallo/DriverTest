@@ -50,14 +50,13 @@ class Test1:
                     reaction_time = end_time - start_time
                     self.results.append(reaction_time)
 
-                    # Wyświetlenie wyników
-                    self.show_result_dialog(reaction_time)
 
                     event_found = True
                     break
-
+        # Wyświetlenie wyników
+        self.show_result_dialog(reaction_time)
         # Zamknięcie pygame
-        pygame.quit()
+        # pygame.quit()
 
     def show_result_dialog(self, reaction_time):
         """
@@ -78,7 +77,7 @@ class Test1:
         """
         Zamknięcie okna dialogowego.
         """
-        self.dialog.destroy()
+        self.dialog.destroy
 
 class Test2:
     def __init__(self):

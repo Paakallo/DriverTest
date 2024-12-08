@@ -255,7 +255,7 @@ class Test2:
         rect_center = (random.randint(0, 800), random.randint(0, 600))
         rect_length = 100
 
-        pygame.draw.rect(self.screen, color, (random.randint(0, 800), random.randint(0, 800), rect_length, rect_length))
+        pygame.draw.rect(self.screen, color, (rect_center[0], rect_center[1], rect_length, rect_length))
         pygame.display.update()
 
         init = False

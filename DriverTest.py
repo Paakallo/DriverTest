@@ -65,7 +65,7 @@ class Test1:
         pygame.quit()
 
         # Wyświetlenie wyników
-        self.show_result_dialog(reaction_time)
+        self.show_result_dialog()
 
 
     # def show_result_dialog(self, reaction_time):

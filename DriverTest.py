@@ -112,7 +112,7 @@ class Test2:
 
     def run_level(self,color,stimulus, duration,level):
         self.screen.fill(self.WHITE)
-        pygame.draw.rect(self.screen, color, (350, 250, 100, 100))
+        pygame.draw.rect(self.screen, color, (random.randint(0, 800), random.randint(0, 600), 100, 100))
         pygame.display.update()
 
         init = False
@@ -168,12 +168,12 @@ class Test2:
                 third_check = True
 
             if first_check and second_check and third_check:
-                self.save_to_csv()
+                self.save_results()
                 pygame.quit()
                 break
     
 
-    def save_to_csv(self):
+    def save_results(self):
         
         file_exists = os.path.isfile("test2.csv")
         with open("test2.csv", mode='a', newline='') as csv_file:
@@ -186,6 +186,7 @@ class Test2:
            
             for data in self.results:
                 writer.writerow(data)
+
 
     def show_result_dialog(self):
         self.dialog = tk.Toplevel()
@@ -202,6 +203,21 @@ class Test2:
         self.dialog.wait_window()    
 
     
+    def show_results(self):
+        result_times = []
+
+        for result in self.results:
+            result_times.append(result['time'])
+
+        plt.plot(result_times, label='Reaction Time (s)')
+        plt.xlabel('Trial')
+        plt.ylabel('Reaction Time (s)')
+        plt.title('Reaction Time Results')
+        plt.legend()
+        plt.show()
+
+
+
 class IntroductionDialog:
     def __init__(self, parent):
         self.parent = parent
@@ -302,8 +318,7 @@ class MainWindow(tk.Tk):
                     event_found = True
                     break
 
-
-            
+    
     def start_test2(self):
         game2 = Test2()
         game2.game_loop()

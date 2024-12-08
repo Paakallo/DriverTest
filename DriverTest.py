@@ -92,7 +92,6 @@ class Test1:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_x, mouse_y = event.pos
-
                     distance = ((mouse_x - circle_center[0]) ** 2 + (mouse_y - circle_center[1]) ** 2) ** 0.5
 
                     if distance <= circle_radius:
@@ -123,7 +122,6 @@ class Test1:
             label = tk.Label(self.dialog, text=f"Your reaction time is {result['time']:.3f} seconds.")
             label.pack()
 
-        # Dodanie przycisku zamykającego
         close_button = tk.Button(self.dialog, text="Close", command=self.dialog.destroy)
         close_button.pack()
 
@@ -253,7 +251,11 @@ class Test2:
 
     def run_level(self,color,stimulus, duration,level):
         self.screen.fill(self.WHITE)
-        pygame.draw.rect(self.screen, color, (random.randint(0, 800), random.randint(0, 600), 100, 100))
+
+        rect_center = (random.randint(0, 800), random.randint(0, 600))
+        rect_length = 100
+
+        pygame.draw.rect(self.screen, color, rect_center, rect_length, rect_length)
         pygame.display.update()
 
         init = False
@@ -268,11 +270,18 @@ class Test2:
                     init = True
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time = end_time - start_time
-                    self.results.append({"test_no":2,"level":level,"time":reaction_time})
-                    event_found = True
-                    break
+
+                    mouse_x, mouse_y = event.pos
+                    distance = ((mouse_x - rect_center[0]) ** 2 + (mouse_y - rect_center[1]) ** 2) ** 0.5
+
+                    # it's similar to a radius
+                    if distance <= rect_length/2:
+
+                        end_time = time.time()
+                        reaction_time = end_time - start_time
+                        self.results.append({"test_no":2,"level":level,"time":reaction_time})
+                        event_found = True
+                        break
 
         self.show_result_dialog()
 
@@ -409,7 +418,7 @@ class MainWindow(tk.Tk):
         game2.game_loop()
 
 
-# Uruchomienie aplikacji
+
 if __name__ == "__main__":
     app = MainWindow()
     app.mainloop()

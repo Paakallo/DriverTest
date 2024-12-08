@@ -1,3 +1,4 @@
+import os
 import sys
 import tkinter as tk
 from tkinter import messagebox
@@ -8,6 +9,7 @@ import wave
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+import csv
 
 sys.setrecursionlimit(10000)
 
@@ -97,9 +99,9 @@ class Test2:
         return start_time
 
 
-    def first_level(self):
+    def run_level(self,color,stimulus, duration,level):
         self.screen.fill(self.WHITE)
-        pygame.draw.rect(self.screen, self.RED, (350, 250, 100, 100))
+        pygame.draw.rect(self.screen, color, (350, 250, 100, 100))
         pygame.display.update()
 
         init = False
@@ -110,63 +112,25 @@ class Test2:
             for event in events:
 
                 if not init:
-                    start_time= self.init_level(5,self.audio_stimulus1)
+                    start_time= self.init_level(duration,stimulus)
                     init = True
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     end_time = time.time()
                     reaction_time = end_time - start_time
-                    self.results.append(reaction_time)
+                    self.results.append({"test_no":2,"level":level,"time":reaction_time})
                     event_found = True
                     break
-            
+
+    def first_level(self):
+        self.run_level(self.RED,self.audio_stimulus1,5,1)      
 
     def second_level(self):
-        self.screen.fill(self.WHITE)
-        pygame.draw.rect(self.screen, self.GREEN, (350, 250, 100, 100))
-        pygame.display.update()
-
-        init = False
-        start_time = 0
-        event_found = False
-        while not event_found:
-            events = pygame.event.get()
-            for event in events:
-                
-                if not init:
-                    start_time= self.init_level(3,self.audio_stimulus2)
-                    init = True
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time = end_time - start_time
-                    self.results.append(reaction_time)
-                    event_found = True
-                    break
+        self.run_level(self.GREEN,self.audio_stimulus2,3,2)
 
 
     def third_level(self):
-        self.screen.fill(self.WHITE)
-        pygame.draw.rect(self.screen, self.BLUE, (350, 250, 100, 100))
-        pygame.display.update()
-
-        init = False
-        start_time = 0
-        event_found = False
-        while not event_found:
-            events = pygame.event.get()
-            for event in events:
-                
-                if not init:
-                    start_time= self.init_level(1,self.audio_stimulus2)
-                    init = True
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time = end_time - start_time
-                    self.results.append(reaction_time)
-                    event_found = True
-                    break
+        self.run_level(self.BLUE,self.audio_stimulus2,1,3)
 
 
     def game_loop(self):
@@ -174,29 +138,44 @@ class Test2:
         second_check = False
         third_check = False
 
+        results = []
 
         self.tutorial_menu()
         self.cool_down(time.time(),1)
 
         while True:
             if not first_check:
-                self.first_level()
+                self.first_level(results)
                 first_check = True
 
             elif not second_check:
-                self.second_level()
+                self.second_level(results)
                 second_check = True
 
             elif not third_check:
-                self.third_level()
+                self.third_level(results)
                 third_check = True
 
             if first_check and second_check and third_check:
+
                 pygame.quit()
                 break
     
-    def get_result(self):
-        return self.results
+
+    def save_to_csv(self):
+        
+        file_exists = os.path.isfile("test2.csv")
+        with open("test2.csv", mode='a', newline='') as csv_file:
+            fieldnames = self.results[0].keys()
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                  
+            if not file_exists:
+                writer.writeheader()
+  
+           
+            for data in self.results:
+                writer.writerow(data)
+
     
 
     

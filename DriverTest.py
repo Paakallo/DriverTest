@@ -93,6 +93,13 @@ class Test2:
                     break
         self.screen.fill(self.BLACK)
         
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Tutorial")
+        
+        self.no_button = tk.Button(self.dialog, text="Continue", command=self.dialog.destroy)
+        self.no_button.pack()
+
+        self.dialog.wait_window()
 
     def init_level(self,duration:int,stimulus):
         # wait n sec
@@ -125,6 +132,8 @@ class Test2:
                     self.results.append({"test_no":2,"level":level,"time":reaction_time})
                     event_found = True
                     break
+
+        self.show_result_dialog(self)
 
     def first_level(self):
         self.run_level(self.RED,self.audio_stimulus1,5,1)      
@@ -159,6 +168,7 @@ class Test2:
                 third_check = True
 
             if first_check and second_check and third_check:
+                self.save_to_csv()
                 pygame.quit()
                 break
     
@@ -177,7 +187,22 @@ class Test2:
             for data in self.results:
                 writer.writerow(data)
 
-    
+    def show_result_dialog(self):
+        """
+        Wyświetla okno dialogowe z wynikami testu.
+        """
+        self.dialog = tk.Toplevel(self.parent)
+        self.dialog.title("Test 1 Results")
+
+        for result in self.results:
+            label = tk.Label(self.dialog, text=f"Your reaction time is {result['time']:.3f} seconds.")
+            label.pack()
+
+        # Dodanie przycisku zamykającego
+        close_button = tk.Button(self.dialog, text="Close", command=self.dialog.destroy)
+        close_button.pack()
+
+        self.dialog.wait_window()    
 
     
 class IntroductionDialog:

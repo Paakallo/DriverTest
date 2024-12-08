@@ -188,10 +188,7 @@ class Test2:
                 writer.writerow(data)
 
     def show_result_dialog(self):
-        """
-        Wyświetla okno dialogowe z wynikami testu.
-        """
-        self.dialog = tk.Toplevel(self.parent)
+        self.dialog = tk.Toplevel()
         self.dialog.title("Test 1 Results")
 
         for result in self.results:

@@ -49,14 +49,14 @@ class Test1:
                     end_time = time.time()
                     reaction_time = end_time - start_time
                     self.results.append(reaction_time)
-
-
                     event_found = True
                     break
+
+        # Zamknięcie okna pygame
+        pygame.quit()
+
         # Wyświetlenie wyników
         self.show_result_dialog(reaction_time)
-        # Zamknięcie pygame
-        # pygame.quit()
 
     def show_result_dialog(self, reaction_time):
         """
@@ -77,7 +77,7 @@ class Test1:
         """
         Zamknięcie okna dialogowego.
         """
-        self.dialog.destroy
+        self.dialog.destroy()
 
 class Test2:
     def __init__(self):
@@ -283,56 +283,36 @@ class IntroductionDialog:
 
 
 class MainWindow(tk.Tk):
-    def __init__(self, master):
-        self.master = master
-        master.title("Psychomotor Fitness Tester")
-        master.geometry("400x200")
-        
+    def __init__(self):
+        super().__init__()
+        self.title("Psychomotor Fitness Tester")
+        self.geometry("400x200")
 
-        self.label = tk.Label(master, text="Welcome to the Psychomotor Fitness Tester!")
+        self.label = tk.Label(self, text="Welcome to the Psychomotor Fitness Tester!")
         self.label.pack()
 
-        self.introduction_button = tk.Button(master, text="Introduction", command=self.show_introduction)
+        self.introduction_button = tk.Button(self, text="Introduction", command=self.show_introduction)
         self.introduction_button.pack()
-      
-        self.start_button = tk.Button(master, text="Start Testing", command=self.show_menu)
-        self.start_button.pack()
 
-        # self.start_button = tk.Button(master, text="Show results", command=self.show_results)
-        # self.start_button.pack()
+        self.test1_button = tk.Button(self, text="Start Test 1", command=self.start_test1)
+        self.test1_button.pack()
 
-        self.menu = None
-       
+        self.test2_button = tk.Button(self, text="Start Test 2", command=self.start_test2)
+        self.test2_button.pack()
+
     def show_introduction(self):
-        self.intro = IntroductionDialog(self.master)
+        self.intro = IntroductionDialog(self)
 
-    
-    def show_menu(self):
-        if self.menu is not None:
-            self.menu.destroy()
-
-        self.menu = tk.Frame(self.master)
-        self.menu.pack()
-
-        test1_button = tk.Button(self.menu, text="Test 1", command=self.start_test1)
-        test1_button.pack()
-
-        test2_button = tk.Button(self.menu, text="Test 2", command=self.start_test2)
-        test2_button.pack()
-
-    
     def start_test1(self):
-        
-        test1 = Test1(self)
+        test1 = Test1(self)  # Przekazanie rodzica tkinter
         test1.run_test()
 
-            
     def start_test2(self):
         game2 = Test2()
         game2.game_loop()
 
 
-         
-root = tk.Tk()
-app = MainWindow(root)
-root.mainloop()
+# Uruchomienie aplikacji
+if __name__ == "__main__":
+    app = MainWindow()
+    app.mainloop()

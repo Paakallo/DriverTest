@@ -78,7 +78,7 @@ class Test2:
             for event in events:
 
                 if not init:
-                    start_time= self.init_level(5)
+                    start_time= self.init_level(5,self.audio_stimulus1)
                     init = True
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -176,7 +176,7 @@ class Test2:
 
         self.tutorial_menu()
         self.cool_down(time.time(),1)
-        
+
         while True:
             if not first_check:
                 self.first_level()

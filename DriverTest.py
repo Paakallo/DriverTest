@@ -138,26 +138,23 @@ class Test2:
         second_check = False
         third_check = False
 
-        results = []
-
         self.tutorial_menu()
         self.cool_down(time.time(),1)
 
         while True:
             if not first_check:
-                self.first_level(results)
+                self.first_level()
                 first_check = True
 
             elif not second_check:
-                self.second_level(results)
+                self.second_level()
                 second_check = True
 
             elif not third_check:
-                self.third_level(results)
+                self.third_level()
                 third_check = True
 
             if first_check and second_check and third_check:
-
                 pygame.quit()
                 break
     

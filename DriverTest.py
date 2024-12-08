@@ -17,43 +17,33 @@ class Test1:
     def __init__(self, parent):
         pygame.init()
 
-        self.parent = parent  # Odniesienie do głównego okna tkinter
-        self.results = []  # Lista wyników
+        self.WHITE = (255, 255, 255)
+        self.RED = (255, 0, 0)
 
-    def run_test(self):
-   
-    
-        # Utworzenie okna pygame
+        self.parent = parent # parent tkinter
+        self.results = []  
+
+    def draw_circle(self):
         screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("Test 1")
 
-        # Definicja kolorów
-        WHITE = (255, 255, 255)
-        RED = (255, 0, 0)
-
-        # Definicja centrum i promienia okręgu
-        circle_center = (400, 300)
+        circle_center = (random.randint(0, 400), random.randint(0, 300))
         circle_radius = 50
 
-        # Rysowanie tła i okręgu
-        screen.fill(WHITE)
-        pygame.draw.circle(screen, RED, circle_center, circle_radius)
+        screen.fill(self.WHITE)
+        pygame.draw.circle(screen, self.RED, circle_center, circle_radius)
         pygame.display.update()
 
-        # Oczekiwanie na reakcję
         start_time = time.time()
         event_found = False
 
         while not event_found:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    # Pobierz współrzędne kliknięcia
                     mouse_x, mouse_y = event.pos
 
-                    # Oblicz odległość od środka okręgu
                     distance = ((mouse_x - circle_center[0]) ** 2 + (mouse_y - circle_center[1]) ** 2) ** 0.5
 
-                    # Sprawdź, czy kliknięcie jest w okręgu
                     if distance <= circle_radius:
                         end_time = time.time()
                         reaction_time = end_time - start_time
@@ -61,34 +51,16 @@ class Test1:
                         event_found = True
                         break
 
-        # Zamknięcie okna pygame
-        pygame.quit()
-
-        # Wyświetlenie wyników
         self.show_result_dialog()
 
 
-    # def show_result_dialog(self, reaction_time):
-    #     """
-    #     Wyświetla okno dialogowe z wynikami testu.
-    #     """
-    #     self.dialog = tk.Toplevel(self.parent)
-    #     self.dialog.title("Test 1 Results")
+    def run_test(self):
+        
+        for i in range(3):
+            self.draw_circle()
 
-    #     # Wyświetlenie czasu reakcji
-    #     label = tk.Label(self.dialog, text=f"Your reaction time is {reaction_time:.3f} seconds.")
-    #     label.pack()
-
-    #     # Dodanie przycisku zamykającego
-    #     close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog)
-    #     close_button.pack()
-
-
-    # def close_dialog(self):
-    #     """
-    #     Zamknięcie okna dialogowego.
-    #     """
-    #     self.dialog.destroy()
+        pygame.quit()
+        self.show_results()
 
 
     def show_result_dialog(self):
@@ -118,6 +90,7 @@ class Test1:
         plt.title('Reaction Time Results')
         plt.legend()
         plt.show()
+
 
 class Test2:
     def __init__(self):

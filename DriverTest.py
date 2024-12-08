@@ -7,7 +7,7 @@ import pyaudio
 import wave
 import numpy as np
 import matplotlib.pyplot as plt
-
+import random
 
 sys.setrecursionlimit(10000)
 
@@ -23,6 +23,7 @@ class Test2:
         self.RED = (255, 0, 0)
         self.GREEN = (0, 255, 0)
         self.BLUE = (0, 0, 255)
+        self.RANDOM = (random.randint(0, 255),random.randint(0, 255),random.randint(0, 255))
 
         self.fs= 44100 #sampling rate
 
@@ -59,16 +60,16 @@ class Test2:
         self.label = tk.Label(self.dialog, text=f"Do you want to go through a tutorial")
         self.label.pack()
 
-        self.yes_button = tk.Button(self.dialog, text="Yes", command=self.tutorial())
+        self.yes_button = tk.Button(self.dialog, text="Yes", command=self.tutorial)
         self.yes_button.pack()
 
-        self.no_button = tk.Button(self.dialog, text="No", command=self.dialog.destroy())
+        self.no_button = tk.Button(self.dialog, text="No", command=self.dialog.destroy)
         self.no_button.pack()
 
 
     def tutorial(self):
         self.screen.fill(self.WHITE)
-        pygame.draw.rect(self.screen, self.RED, (350, 250, 100, 100))
+        pygame.draw.rect(self.screen, self.RANDOM, (350, 250, 100, 100))
         pygame.display.update()
 
         init = False

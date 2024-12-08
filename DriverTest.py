@@ -133,7 +133,7 @@ class Test2:
                     event_found = True
                     break
 
-        self.show_result_dialog(self)
+        self.show_result_dialog()
 
     def first_level(self):
         self.run_level(self.RED,self.audio_stimulus1,5,1)      

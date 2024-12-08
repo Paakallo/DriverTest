@@ -135,15 +135,15 @@ class Test2:
 
         self.show_result_dialog()
 
+
     def first_level(self):
-        self.run_level(self.RED,self.audio_stimulus1,5,1)      
+        self.run_level(self.RED,self.audio_stimulus1,2,1)      
 
     def second_level(self):
-        self.run_level(self.GREEN,self.audio_stimulus2,3,2)
-
+        self.run_level(self.GREEN,self.audio_stimulus2,1,2)
 
     def third_level(self):
-        self.run_level(self.BLUE,self.audio_stimulus2,1,3)
+        self.run_level(self.BLUE,self.audio_stimulus2,0.75,3)
 
 
     def game_loop(self):
@@ -169,6 +169,7 @@ class Test2:
 
             if first_check and second_check and third_check:
                 self.save_results()
+                self.show_results()
                 pygame.quit()
                 break
     

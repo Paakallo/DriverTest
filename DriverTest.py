@@ -15,19 +15,14 @@ sys.setrecursionlimit(10000)
 
 class Test1:
     def __init__(self, parent):
-        """
-        Inicjalizacja testu reakcji.
-        """
+        pygame.init()
+
         self.parent = parent  # Odniesienie do głównego okna tkinter
         self.results = []  # Lista wyników
 
     def run_test(self):
-        """
-        Uruchom test reakcji z wykorzystaniem pygame.
-        """
-        # Inicjalizacja pygame
-        pygame.init()
-
+   
+    
         # Utworzenie okna pygame
         screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("Test 1")
@@ -36,9 +31,13 @@ class Test1:
         WHITE = (255, 255, 255)
         RED = (255, 0, 0)
 
+        # Definicja centrum i promienia okręgu
+        circle_center = (400, 300)
+        circle_radius = 50
+
         # Rysowanie tła i okręgu
         screen.fill(WHITE)
-        pygame.draw.circle(screen, RED, (400, 300), 50)
+        pygame.draw.circle(screen, RED, circle_center, circle_radius)
         pygame.display.update()
 
         # Oczekiwanie na reakcję
@@ -48,11 +47,19 @@ class Test1:
         while not event_found:
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time = end_time - start_time
-                    self.results.append(reaction_time)
-                    event_found = True
-                    break
+                    # Pobierz współrzędne kliknięcia
+                    mouse_x, mouse_y = event.pos
+
+                    # Oblicz odległość od środka okręgu
+                    distance = ((mouse_x - circle_center[0]) ** 2 + (mouse_y - circle_center[1]) ** 2) ** 0.5
+
+                    # Sprawdź, czy kliknięcie jest w okręgu
+                    if distance <= circle_radius:
+                        end_time = time.time()
+                        reaction_time = end_time - start_time
+                        self.results.append({"test_no":2,"level":1,"time":reaction_time})
+                        event_found = True
+                        break
 
         # Zamknięcie okna pygame
         pygame.quit()
@@ -60,27 +67,57 @@ class Test1:
         # Wyświetlenie wyników
         self.show_result_dialog(reaction_time)
 
-    def show_result_dialog(self, reaction_time):
-        """
-        Wyświetla okno dialogowe z wynikami testu.
-        """
-        self.dialog = tk.Toplevel(self.parent)
+
+    # def show_result_dialog(self, reaction_time):
+    #     """
+    #     Wyświetla okno dialogowe z wynikami testu.
+    #     """
+    #     self.dialog = tk.Toplevel(self.parent)
+    #     self.dialog.title("Test 1 Results")
+
+    #     # Wyświetlenie czasu reakcji
+    #     label = tk.Label(self.dialog, text=f"Your reaction time is {reaction_time:.3f} seconds.")
+    #     label.pack()
+
+    #     # Dodanie przycisku zamykającego
+    #     close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog)
+    #     close_button.pack()
+
+
+    # def close_dialog(self):
+    #     """
+    #     Zamknięcie okna dialogowego.
+    #     """
+    #     self.dialog.destroy()
+
+
+    def show_result_dialog(self):
+        self.dialog = tk.Toplevel()
         self.dialog.title("Test 1 Results")
 
-        # Wyświetlenie czasu reakcji
-        label = tk.Label(self.dialog, text=f"Your reaction time is {reaction_time:.3f} seconds.")
-        label.pack()
+        for result in self.results:
+            label = tk.Label(self.dialog, text=f"Your reaction time is {result['time']:.3f} seconds.")
+            label.pack()
 
         # Dodanie przycisku zamykającego
-        close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog)
+        close_button = tk.Button(self.dialog, text="Close", command=self.dialog.destroy)
         close_button.pack()
 
-    def close_dialog(self):
-        """
-        Zamknięcie okna dialogowego.
-        """
-        self.dialog.destroy()
+        self.dialog.wait_window()    
 
+
+    def show_results(self):
+        result_times = []
+
+        for result in self.results:
+            result_times.append(result['time'])
+
+        plt.plot(result_times, label='Reaction Time (s)')
+        plt.xlabel('Trial')
+        plt.ylabel('Reaction Time (s)')
+        plt.title('Reaction Time Results')
+        plt.legend()
+        plt.show()
 
 class Test2:
     def __init__(self):
@@ -163,6 +200,7 @@ class Test2:
         self.no_button.pack()
 
         self.dialog.wait_window()
+
 
     def init_level(self,duration:int,stimulus):
         # wait n sec

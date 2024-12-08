@@ -23,7 +23,58 @@ class Test1:
         self.parent = parent # parent tkinter
         self.results = []  
 
-    def draw_circle(self):
+
+    def tutorial_menu(self):
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Tutorial")
+        self.label = tk.Label(self.dialog, text="Do you want to go through a tutorial?")
+        self.label.pack()
+
+        self.yes_button = tk.Button(
+            self.dialog, text="Yes", command=lambda: [self.dialog.destroy(), self.tutorial()]
+        )
+        self.yes_button.pack()
+
+        self.no_button = tk.Button(self.dialog, text="No", command=self.dialog.destroy)
+        self.no_button.pack()
+
+        self.dialog.wait_window()
+
+
+    def tutorial(self):
+        screen = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption("Test 1")
+
+        circle_center = (random.randint(0, 400), random.randint(0, 300))
+        circle_radius = 50
+
+        screen.fill(self.WHITE)
+        pygame.draw.circle(screen, self.RED, circle_center, circle_radius)
+        pygame.display.update()
+
+        event_found = False
+
+        while not event_found:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x, mouse_y = event.pos
+
+                    distance = ((mouse_x - circle_center[0]) ** 2 + (mouse_y - circle_center[1]) ** 2) ** 0.5
+
+                    if distance <= circle_radius:
+                        event_found = True
+                        break
+        
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Tutorial")
+        
+        self.no_button = tk.Button(self.dialog, text="Continue", command=self.dialog.destroy)
+        self.no_button.pack()
+
+        self.dialog.wait_window()
+
+
+    def draw_circle(self,level):
         screen = pygame.display.set_mode((800, 600))
         pygame.display.set_caption("Test 1")
 
@@ -47,7 +98,7 @@ class Test1:
                     if distance <= circle_radius:
                         end_time = time.time()
                         reaction_time = end_time - start_time
-                        self.results.append({"test_no":2,"level":1,"time":reaction_time})
+                        self.results.append({"test_no":1,"level":level,"time":reaction_time})
                         event_found = True
                         break
 
@@ -57,11 +108,11 @@ class Test1:
     def run_test(self):
         
         for i in range(3):
-            self.draw_circle()
+            self.draw_circle(i+1)
 
-        pygame.quit()
+        self.save_results()
         self.show_results()
-
+        pygame.quit()
 
     def show_result_dialog(self):
         self.dialog = tk.Toplevel()
@@ -90,6 +141,21 @@ class Test1:
         plt.title('Reaction Time Results')
         plt.legend()
         plt.show()
+
+
+    def save_results(self):
+    
+        file_exists = os.path.isfile("test1.csv")
+        with open("test1.csv", mode='a', newline='') as csv_file:
+            fieldnames = self.results[0].keys()
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+                    
+            if not file_exists:
+                writer.writeheader()
+
+            
+            for data in self.results:
+                writer.writerow(data)
 
 
 class Test2:

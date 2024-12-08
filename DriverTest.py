@@ -84,10 +84,11 @@ class Test2:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     event_found = True
                     break
-
+        self.screen.fill(self.BLACK)
+        
 
     def init_level(self,duration:int,stimulus):
-        # wait 5 sec
+        # wait n sec
         self.cool_down(time.time(),duration)
 
         start_time = time.time()
@@ -172,6 +173,10 @@ class Test2:
         second_check = False
         third_check = False
 
+
+        self.tutorial_menu()
+        self.cool_down(time.time(),1)
+        
         while True:
             if not first_check:
                 self.first_level()

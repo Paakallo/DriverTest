@@ -59,14 +59,18 @@ class Test2:
     def tutorial_menu(self):
         self.dialog = tk.Toplevel()
         self.dialog.title("Tutorial")
-        self.label = tk.Label(self.dialog, text=f"Do you want to go through a tutorial")
+        self.label = tk.Label(self.dialog, text="Do you want to go through a tutorial?")
         self.label.pack()
 
-        self.yes_button = tk.Button(self.dialog, text="Yes", command=self.tutorial)
+        self.yes_button = tk.Button(
+            self.dialog, text="Yes", command=lambda: [self.dialog.destroy(), self.tutorial()]
+        )
         self.yes_button.pack()
 
         self.no_button = tk.Button(self.dialog, text="No", command=self.dialog.destroy)
         self.no_button.pack()
+
+        self.dialog.wait_window()
 
 
     def tutorial(self):

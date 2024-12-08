@@ -10,102 +10,259 @@ import matplotlib.pyplot as plt
 
 
 sys.setrecursionlimit(10000)
-# class show_test2:
-#     def test_2(self):
-#         pygame.init()
-#         p= pyaudio.PyAudio()
 
-#         screen = pygame.display.set_mode((800, 600))
-#         pygame.display.set_caption("Test 2")
+class Test1:
+    def __init__(self, parent):
+        """
+        Inicjalizacja testu reakcji.
+        """
+        self.parent = parent  # Odniesienie do głównego okna tkinter
+        self.results = []  # Lista wyników
 
-#         WHITE = (255, 255, 255)
-#         BLACK = (0, 0, 0)
-#         RED = (255, 0, 0)
+    def run_test(self):
+        """
+        Uruchom test reakcji z wykorzystaniem pygame.
+        """
+        # Inicjalizacja pygame
+        pygame.init()
 
-#         fs= 44100 #sampling rate
-#         duration = 0.5
-#         f1 = 500
-#         f2 = 1000
-#         t= np.linspace(0, duration, int(duration * fs), False)  # time array
-#         audio_stimulus1 = np.sin(f1 * 2 * np.pi * t)  # audio stimulus 1 (sine wave)
-#         audio_stimulus2 = np.sin(f2 * 2 * np.pi * t)  # audio stimulus 2 (sine wave)
+        # Utworzenie okna pygame
+        screen = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption("Test 1")
 
-#         screen.fill(WHITE)
+        # Definicja kolorów
+        WHITE = (255, 255, 255)
+        RED = (255, 0, 0)
 
-#         pygame.draw.rect(screen, RED, (350, 250, 100, 100))
+        # Rysowanie tła i okręgu
+        screen.fill(WHITE)
+        pygame.draw.circle(screen, RED, (400, 300), 50)
+        pygame.display.update()
 
-#         stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
-#         stream.write(audio_stimulus1.astype(np.float32).tobytes())
-#         stream.stop_stream()
-#         stream.close()
+        # Oczekiwanie na reakcję
+        start_time = time.time()
+        event_found = False
 
-#         pygame.display.update()
-#         pygame.display.flip()
+        while not event_found:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    end_time = time.time()
+                    reaction_time = end_time - start_time
+                    self.results.append(reaction_time)
 
-#         start_time = time.time()
-#         event_found = False
-#         while not event_found:
-#              for event in pygame.event.get():
-#                 if event.type == pygame.MOUSEBUTTONDOWN:
-#                     end_time = time.time()
-#                     reaction_time3 = end_time - start_time
-#                     event_found = True
-#                     break
+                    # Wyświetlenie wyników
+                    self.show_result_dialog(reaction_time)
+
+                    event_found = True
+                    break
+
+        # Zamknięcie pygame
+        pygame.quit()
+
+    def show_result_dialog(self, reaction_time):
+        """
+        Wyświetla okno dialogowe z wynikami testu.
+        """
+        self.dialog = tk.Toplevel(self.parent)
+        self.dialog.title("Test 1 Results")
+
+        # Wyświetlenie czasu reakcji
+        label = tk.Label(self.dialog, text=f"Your reaction time is {reaction_time:.3f} seconds.")
+        label.pack()
+
+        # Dodanie przycisku zamykającego
+        close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog)
+        close_button.pack()
+
+    def close_dialog(self):
+        """
+        Zamknięcie okna dialogowego.
+        """
+        self.dialog.destroy()
+
+class Test2:
+    def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((800, 600))
+        pygame.display.set_caption("Test 2")
+        self.p= pyaudio.PyAudio()
+
+        self.WHITE = (255, 255, 255)
+        self.BLACK = (0, 0, 0)
+        self.RED = (255, 0, 0)
+        self.GREEN = (0, 255, 0)
+        self.BLUE = (0, 0, 255)
+
+        self.fs= 44100 #sampling rate
+
+        duration = 0.5
+        f1 = 500
+        f2 = 1000
+        t= np.linspace(0, duration, int(duration * self.fs), False)  # time array
+
+        self.audio_stimulus1 = np.sin(f1 * 2 * np.pi * t)  # audio stimulus 1 (sine wave)
+        self.audio_stimulus2 = np.sin(f2 * 2 * np.pi * t)  # audio stimulus 2 (sine wave)
+
+        self.results = []
+
+
+    def audio_stimulus(self,stimuli):
+        stream = self.p.open(format=pyaudio.paFloat32, channels=1, rate=self.fs, output=True)
+        stream.write(stimuli.astype(np.float32).tobytes())
+        stream.stop_stream()
+        stream.close()
+
+
+    def cool_down(self,wait1:time.time, endtime:int):
+        wait_time = 0
+        while wait_time < endtime + 1:
+            wait2 = time.time()
+            wait_time = wait2 - wait1
+            if wait_time >= endtime:
+                break
+ 
+
+    def tutorial_menu(self):
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Tutorial")
+        self.label = tk.Label(self.dialog, text=f"Do you want to go through a tutorial")
+        self.label.pack()
+
+        self.yes_button = tk.Button(self.dialog, text="Yes", command=self.tutorial())
+        self.yes_button.pack()
+
+        self.no_button = tk.Button(self.dialog, text="No", command=self.dialog.destroy())
+        self.no_button.pack()
+
+
+    def tutorial(self):
+        self.screen.fill(self.WHITE)
+        pygame.draw.rect(self.screen, self.RED, (350, 250, 100, 100))
+        pygame.display.update()
+
+        init = False
+        event_found = False
+        while not event_found:
+            events = pygame.event.get()
+            for event in events:
+
+                if not init:
+                    start_time= self.init_level(5)
+                    init = True
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    event_found = True
+                    break
+
+
+    def init_level(self,duration:int,stimulus):
+        # wait 5 sec
+        self.cool_down(time.time(),duration)
+
+        start_time = time.time()
+        self.audio_stimulus(stimulus)
+        return start_time
+
+
+    def first_level(self):
+        self.screen.fill(self.WHITE)
+        pygame.draw.rect(self.screen, self.RED, (350, 250, 100, 100))
+        pygame.display.update()
+
+        init = False
+        start_time = 0
+        event_found = False
+        while not event_found:
+            events = pygame.event.get()
+            for event in events:
+
+                if not init:
+                    start_time= self.init_level(5,self.audio_stimulus1)
+                    init = True
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    end_time = time.time()
+                    reaction_time = end_time - start_time
+                    self.results.append(reaction_time)
+                    event_found = True
+                    break
             
 
-        
-#         screen.fill(WHITE)
+    def second_level(self):
+        self.screen.fill(self.WHITE)
+        pygame.draw.rect(self.screen, self.GREEN, (350, 250, 100, 100))
+        pygame.display.update()
 
-#         # draw a red circle
-#         pygame.draw.circle(screen, RED, (400, 300), 50)
+        init = False
+        start_time = 0
+        event_found = False
+        while not event_found:
+            events = pygame.event.get()
+            for event in events:
+                
+                if not init:
+                    start_time= self.init_level(3,self.audio_stimulus2)
+                    init = True
 
-#         # play audio stimulus 2
-#         stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
-#         stream.write(audio_stimulus2.astype(np.float32).tobytes())
-#         stream.stop_stream()
-#         stream.close()
-
-#         # update the screen
-#         pygame.display.update()
-#         pygame.display.flip()
-
-#         # wait for a reaction
-#         start_time = time.time()
-#         event_found = False
-#         while not event_found:
-#             for event in pygame.event.get():
-#                 if event.type == pygame.MOUSEBUTTONDOWN:
-#                     end_time = time.time()
-#                     reaction_time2 = end_time - start_time
-#                     event_found = True
-#                     break
-
-        
-#         # calculate average reaction time and display it'
-#         self.dialog = tk.Toplevel()
-#         self.dialog.geometry("800x300")
-
-#         self.label= tk.Label(self.dialog, text= f"Your reaction time in test 1 is {reaction_time3:.3f} seconds.")
-#         self.label.pack()
-
-#         self.label= tk.Label(self.dialog, text= f"Your reaction time in test 2 is {reaction_time2:.3f} seconds.")
-#         self.label.pack()
-
-#         total_reaction_time = reaction_time3 + reaction_time2
-#         self.label= tk.Label(self.dialog, text= f"Your total reaction time is {total_reaction_time:.3f} seconds.")
-#         self.label.pack()
-        
-#         avg_reaction_time = (reaction_time3 + reaction_time2) / 2
-#         self.label= tk.Label(self.dialog,text=f"Your average reaction time is {avg_reaction_time:.3f} seconds.")
-#         self.label.pack()
-#         self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog3)
-#         self.close_button.pack()
-
-#          # clean up Pygame and Pyaudio
-#         p.terminate()
-#         pygame.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    end_time = time.time()
+                    reaction_time = end_time - start_time
+                    self.results.append(reaction_time)
+                    event_found = True
+                    break
 
 
+    def third_level(self):
+        self.screen.fill(self.WHITE)
+        pygame.draw.rect(self.screen, self.BLUE, (350, 250, 100, 100))
+        pygame.display.update()
+
+        init = False
+        start_time = 0
+        event_found = False
+        while not event_found:
+            events = pygame.event.get()
+            for event in events:
+                
+                if not init:
+                    start_time= self.init_level(1,self.audio_stimulus2)
+                    init = True
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    end_time = time.time()
+                    reaction_time = end_time - start_time
+                    self.results.append(reaction_time)
+                    event_found = True
+                    break
+
+
+    def game_loop(self):
+        first_check = False
+        second_check = False
+        third_check = False
+
+        while True:
+            if not first_check:
+                self.first_level()
+                first_check = True
+
+            elif not second_check:
+                self.second_level()
+                second_check = True
+
+            elif not third_check:
+                self.third_level()
+                third_check = True
+
+            if first_check and second_check and third_check:
+                pygame.quit()
+                break
+    
+    def get_result(self):
+        return self.results
+    
+
+    
 class IntroductionDialog:
     def __init__(self, parent):
         self.parent = parent
@@ -126,8 +283,6 @@ class IntroductionDialog:
         self.dialog.destroy()
 
 
-        
-
 class MainWindow(tk.Tk):
     def __init__(self, master):
         self.master = master
@@ -144,8 +299,8 @@ class MainWindow(tk.Tk):
         self.start_button = tk.Button(master, text="Start Testing", command=self.show_menu)
         self.start_button.pack()
 
-        self.start_button = tk.Button(master, text="Show results", command=self.show_results)
-        self.start_button.pack()
+        # self.start_button = tk.Button(master, text="Show results", command=self.show_results)
+        # self.start_button.pack()
 
         self.menu = None
        
@@ -160,166 +315,22 @@ class MainWindow(tk.Tk):
         self.menu = tk.Frame(self.master)
         self.menu.pack()
 
-        test1_button = tk.Button(self.menu, text="Test 1", command=self.test_1)
+        test1_button = tk.Button(self.menu, text="Test 1", command=self.start_test1)
         test1_button.pack()
 
-        test2_button = tk.Button(self.menu, text="Test 2", command=self.test_2)
+        test2_button = tk.Button(self.menu, text="Test 2", command=self.start_test2)
         test2_button.pack()
 
-    def test_1(self):
-        # initialize pygame
-        pygame.init()
-
-        # set up the window
-        screen = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Test 1")
-
-        # set up the colors
-        WHITE = (255, 255, 255)
-        BLACK = (0, 0, 0)
-        RED = (255, 0, 0)
-
-        #  draw a white background
-        screen.fill(WHITE)
-
-        # draw a red circle
-        pygame.draw.circle(screen, RED, (400, 300), 50)
-
-        # update the screen
-        pygame.display.update()
-
-        
-            
-
-        # wait for a reaction
-        start_time = time.time()
-        event_found = False
-        while not event_found:
-            for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time = end_time - start_time
-                    self.dialog = tk.Toplevel()
-                    self.dialog.title("Test 1 Results")
-                    self.label = tk.Label(self.dialog, text=f"Your reaction time is {reaction_time:.3f} seconds.")
-                    self.label.pack()
-                    self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog1)
-                    self.close_button.pack()
-                    event_found = True
-                    break
-
-    def close_dialog1(self):
-        self.dialog.destroy()
-        pygame.quit() 
-            
-    def test_2(self):
-        pygame.init()
-        screen = pygame.display.set_mode((800, 600))
-        pygame.display.set_caption("Test 2")
-        p= pyaudio.PyAudio()
-
-        WHITE = (255, 255, 255)
-        BLACK = (0, 0, 0)
-        RED = (255, 0, 0)
-
-        fs= 44100 #sampling rate
-        duration = 0.5
-        f1 = 500
-        f2 = 1000
-        t= np.linspace(0, duration, int(duration * fs), False)  # time array
-        audio_stimulus1 = np.sin(f1 * 2 * np.pi * t)  # audio stimulus 1 (sine wave)
-        audio_stimulus2 = np.sin(f2 * 2 * np.pi * t)  # audio stimulus 2 (sine wave)
-
-        screen.fill(WHITE)
-
-        pygame.draw.rect(screen, RED, (350, 250, 100, 100))
-
-        stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
-        stream.write(audio_stimulus1.astype(np.float32).tobytes())
-        stream.stop_stream()
-        stream.close()
-
-        pygame.display.update()
-        pygame.display.flip()
-
-        start_time = time.time()
-        event_found = False
-        while not event_found:
-             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    end_time = time.time()
-                    reaction_time3 = end_time - start_time
-                    event_found = True
-                    break
-            
-
-        
-        screen.fill(WHITE)
-
-        # # draw a red circle
-        # pygame.draw.circle(screen, RED, (400, 300), 50)
-
-        # # play audio stimulus 2
-        # stream = p.open(format=pyaudio.paFloat32, channels=1, rate=fs, output=True)
-        # stream.write(audio_stimulus2.astype(np.float32).tobytes())
-        # stream.stop_stream()
-        # stream.close()
-
-        # # update the screen
-        # pygame.display.update()
-        # pygame.display.flip()
-
-        # # wait for a reaction
-        # start_time = time.time()
-        # event_found = False
-        # while not event_found:
-        #     for event in pygame.event.get():
-        #         if event.type == pygame.MOUSEBUTTONDOWN:
-        #             end_time = time.time()
-        #             reaction_time2 = end_time - start_time
-        #             event_found = True
-        #             break
-
-        
-        # calculate average reaction time and display it'
-        # self.dialog = tk.Toplevel()
-        # self.dialog.geometry("400x300")
-
-        # self.label= tk.Label(self.dialog, text= f"Your reaction time in test 1 is {reaction_time3:.3f} seconds.")
-        # self.label.pack()
-
-        # self.label= tk.Label(self.dialog, text= f"Your reaction time in test 2 is {reaction_time2:.3f} seconds.")
-        # self.label.pack()
-
-        # total_reaction_time = reaction_time3 + reaction_time2
-        # self.label= tk.Label(self.dialog, text= f"Your total reaction time is {total_reaction_time:.3f} seconds.")
-        # self.label.pack()
-        
-        # avg_reaction_time = (reaction_time3 + reaction_time2) / 2
-        # self.label= tk.Label(self.dialog,text=f"Your average reaction time is {avg_reaction_time:.3f} seconds.")
-        # self.label.pack()
-        # self.close_button = tk.Button(self.dialog, text="Close", command=self.close_dialog1)
-        # self.close_button.pack()
-
-
-    #TODO: Trzeba przerobić funckję od zera
-    # def show_results(self):
-    #     accuracy = (correct / total) * 100
-    #     print(f"Accuracy: {accuracy:.2f}%")
-    #     precision = (tp / (tp + fp)) * 100
-    #     print(f"Precision: {precision:.2f}%")
-    #     recall = (tp / (tp + fn)) * 100
-    #     print(f"Recall: {recall:.2f}%")
-
-    #     # create a bar chart to display results
-    #     labels = ["Accuracy", "Precision", "Recall"]
-    #     values = [accuracy, precision, recall]
-    #     plt.bar(labels, values)
-    #     plt.title("Results")
-    #     plt.ylabel("Percentage")
-    #     plt.show()
     
-         
+    def start_test1(self):
+        
+        test1 = Test1(self)
+        test1.run_test()
+
+            
+    def start_test2(self):
+        game2 = Test2()
+        game2.game_loop()
 
 
          

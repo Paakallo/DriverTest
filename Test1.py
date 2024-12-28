@@ -102,10 +102,21 @@ class Test1:
 
         self.show_result_dialog()
 
+    def introduction(self):
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Test Decription")
+        self.label = tk.Label(self.dialog, text="Your goal is to click on a randomly generated circle")
+        self.label.pack()
+
+        self.continue_button = tk.Button(
+            self.dialog, text="Continue", command=lambda: [self.dialog.destroy(),self.tutorial_menu()])
+        self.continue_button.pack()
+
+        self.dialog.wait_window()
 
     def run_test(self):
         
-        self.tutorial_menu()
+        self.introduction()
         for i in range(3):
             self.draw_circle(i+1)
 

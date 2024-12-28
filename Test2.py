@@ -105,6 +105,18 @@ class Test2:
         return start_time
 
 
+    def introduction(self):
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Test Decription")
+        self.label = tk.Label(self.dialog, text="Your goal is to click on a randomly generated rectangle after a sound signal")
+        self.label.pack()
+
+        self.continue_button = tk.Button(
+            self.dialog, text="Continue", command=lambda: [self.dialog.destroy(),self.tutorial_menu()])
+        self.continue_button.pack()
+
+        self.dialog.wait_window()
+
     def run_level(self, color, stimulus, duration, level):
         self.screen.fill(self.WHITE)
 
@@ -137,8 +149,22 @@ class Test2:
                         reaction_time = time.time() - start_time
                         self.results.append({"test_no": 2, "level": level, "time": reaction_time})
                         event_found = True
-        
-        
+        self.show_result_dialog()
+
+    
+    def show_result_dialog(self):
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Test 3 Results")
+
+        for result in self.results:
+            label = tk.Label(self.dialog, text=f"Your reaction time is {result['time']:.3f} seconds.")
+            label.pack()
+
+        close_button = tk.Button(self.dialog, text="Close", command=self.dialog.destroy)
+        close_button.pack()
+
+        self.dialog.wait_window()     
+
 
     def first_level(self):
         self.run_level(self.RED,self.audio_stimulus1,2,1)      
@@ -155,7 +181,7 @@ class Test2:
         second_check = False
         third_check = False
 
-        self.tutorial_menu()
+        self.introduction()
         self.cool_down(time.time(),1)
 
         while True:

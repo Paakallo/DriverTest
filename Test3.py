@@ -192,16 +192,30 @@ class Test3:
                                 else:
                                     print("Incorrect shape! Try again.")
         
+        # self.dialog = tk.Toplevel()
+        # self.dialog.title("Level Results")
+        # self.label = tk.Label(self.dialog, text=f"Reaction time: {reaction_time:.3f}")
+        # self.label.pack()
+
+        # self.continue_button = tk.Button(
+        #     self.dialog, text="Continue", command=lambda: self.dialog.destroy())
+        # self.continue_button.pack()
+
+        # self.dialog.wait_window()
+        self.show_result_dialog()
+
+    def show_result_dialog(self):
         self.dialog = tk.Toplevel()
-        self.dialog.title("Level Results")
-        self.label = tk.Label(self.dialog, text=f"Reaction time: {reaction_time:.3f}")
-        self.label.pack()
+        self.dialog.title("Test 3 Results")
 
-        self.continue_button = tk.Button(
-            self.dialog, text="Continue", command=lambda: self.dialog.destroy())
-        self.continue_button.pack()
+        for result in self.results:
+            label = tk.Label(self.dialog, text=f"Your reaction time is {result['time']:.3f} seconds.")
+            label.pack()
 
-        self.dialog.wait_window()
+        close_button = tk.Button(self.dialog, text="Close", command=self.dialog.destroy)
+        close_button.pack()
+
+        self.dialog.wait_window() 
 
 
     def game_loop(self):

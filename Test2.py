@@ -179,7 +179,6 @@ class Test2:
         third_check = False
 
         self.introduction()
-        self.cool_down(time.time(),1)
 
         while True:
             if not first_check:

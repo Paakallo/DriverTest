@@ -106,6 +106,7 @@ class Test3:
                                     print("Incorrect shape! Try again.")
 
         print('End of tutorial')
+        
         self.dialog = tk.Toplevel()
         self.dialog.title("Tutorial")
 
@@ -193,11 +194,11 @@ class Test3:
         
         self.dialog = tk.Toplevel()
         self.dialog.title("Level Results")
-        self.label = tk.Label(self.dialog, text=f"Reaction time: {reaction_time}")
+        self.label = tk.Label(self.dialog, text=f"Reaction time: {reaction_time:.3f}")
         self.label.pack()
 
         self.continue_button = tk.Button(
-            self.dialog, text="Continue", command=lambda: self.dialog.destroy)
+            self.dialog, text="Continue", command=lambda: self.dialog.destroy())
         self.continue_button.pack()
 
         self.dialog.wait_window()

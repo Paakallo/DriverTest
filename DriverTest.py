@@ -1,3 +1,4 @@
+import os
 import sys
 import tkinter as tk
 from tkinter import messagebox
@@ -8,6 +9,7 @@ import wave
 import numpy as np
 import matplotlib.pyplot as plt
 import random
+
 import os
 import csv
 
@@ -16,6 +18,7 @@ from Test2 import Test2
 from Test3 import Test3
 
 sys.setrecursionlimit(10000)
+
 
 class IntroductionDialog:
     def __init__(self, parent):
@@ -49,6 +52,7 @@ class MainWindow(tk.Tk):
         self.introduction_button = tk.Button(self, text="Introduction", command=self.show_introduction)
         self.introduction_button.pack()
 
+
         self.test1_button = tk.Button(self, text="Start Test 1", command=self.start_test1)
         self.test1_button.pack()
 
@@ -58,17 +62,21 @@ class MainWindow(tk.Tk):
         self.test3_button = tk.Button(self, text="Start Test 3", command=self.start_test3)
         self.test3_button.pack()
 
+        
     def show_introduction(self):
         self.intro = IntroductionDialog(self)
 
+        
     def start_test1(self):
         test1 = Test1(self)  # Przekazanie rodzica tkinter
         test1.run_test()
+
 
     def start_test2(self):
         game2 = Test2()
         game2.game_loop()
 
+        
     def start_test3(self):
         game3 = Test3()
         game3.game_loop()

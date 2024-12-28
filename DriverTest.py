@@ -13,6 +13,8 @@ import csv
 
 from Test1 import Test1
 from Test2 import Test2
+from Test3 import Test3
+
 sys.setrecursionlimit(10000)
 
 class IntroductionDialog:
@@ -53,6 +55,9 @@ class MainWindow(tk.Tk):
         self.test2_button = tk.Button(self, text="Start Test 2", command=self.start_test2)
         self.test2_button.pack()
 
+        self.test3_button = tk.Button(self, text="Start Test 3", command=self.start_test3)
+        self.test3_button.pack()
+
     def show_introduction(self):
         self.intro = IntroductionDialog(self)
 
@@ -64,7 +69,9 @@ class MainWindow(tk.Tk):
         game2 = Test2()
         game2.game_loop()
 
-
+    def start_test3(self):
+        game3 = Test3()
+        game3.game_loop()
 
 if __name__ == "__main__":
     app = MainWindow()

@@ -143,8 +143,8 @@ class Test1:
 
     def save_results(self):
     
-        file_exists = os.path.isfile("test1.csv")
-        with open("test1.csv", mode='a', newline='') as csv_file:
+        file_exists = os.path.isfile("Test1_results.csv")
+        with open("Test1_results.csv", mode='a', newline='') as csv_file:
             fieldnames = self.results[0].keys()
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
                     

@@ -180,8 +180,8 @@ class Test2:
 
     def save_results(self):
         
-        file_exists = os.path.isfile("test2.csv")
-        with open("test2.csv", mode='a', newline='') as csv_file:
+        file_exists = os.path.isfile("Test2_results.csv")
+        with open("Test2_results.csv", mode='a', newline='') as csv_file:
             fieldnames = self.results[0].keys()
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
                   

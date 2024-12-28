@@ -20,7 +20,6 @@ class Test3:
         self.WHITE = (255, 255, 255)
         self.BLACK = (0, 0, 0)
         
-        # Map color names to RGB values
         self.COLOR_MAP = {
             "Red": (255, 0, 0),
             "Green": (0, 255, 0),
@@ -31,11 +30,11 @@ class Test3:
         }
         self.COLORS = list(self.COLOR_MAP.items())  # [(name, value), ...]
 
-        self.shapes = []  # Store shapes' data
+        self.shapes = []  
         self.results = []
 
     def draw_random_figures(self, num_figures=5):
-        """Draw random figures on the screen and select a target."""
+        
         self.shapes = []
         self.screen.fill(self.WHITE)
 
@@ -100,14 +99,14 @@ class Test3:
                                 if shape == target:
                                     end_time = time.time()
                                     reaction_time = end_time - start_time
-                                    self.results.append({"level": level, "time": reaction_time})
+                                    self.results.append({"test_no": 3,"level": level, "time": reaction_time})
                                     print(f"Correct! Reaction time: {reaction_time:.3f} seconds.")
                                     event_found = True
                                 else:
                                     print("Incorrect shape! Try again.")
 
     def game_loop(self):
-        """Run the game loop for multiple levels."""
+       
         for level in range(1, 4):
             print(f"Starting Level {level}...")
             self.run_level(level)
@@ -117,7 +116,7 @@ class Test3:
         pygame.quit()
 
     def save_results(self):
-        """Save the results to a CSV file."""
+        
         file_exists = os.path.isfile("Test3_results.csv")
         with open("Test3_results.csv", mode="a", newline="") as csv_file:
             fieldnames = ["level", "time"]
@@ -127,7 +126,7 @@ class Test3:
             writer.writerows(self.results)
 
     def show_results(self):
-        """Display results as a plot."""
+        
         times = [result["time"] for result in self.results]
         levels = [result["level"] for result in self.results]
 

@@ -59,8 +59,74 @@ class Test3:
         target_shape = random.choice(self.shapes)
         return target_shape
 
+
+    def tutorial(self):
+        self.draw_random_figures(5)
+        target = self.get_target_instruction()
+        instruction_text = f"Click on the {target['type']} with color {target['color_name']}."
+        print(instruction_text)  # For debugging, can replace with on-screen instructions
+
+        # start_time = time.time()
+        event_found = False
+
+        while not event_found:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mouse_x, mouse_y = event.pos
+
+                    for shape in self.shapes:
+                        if shape["type"] == "rect":
+                            # Check if the click is inside the rectangle
+                            if (
+                                shape["x"] <= mouse_x <= shape["x"] + shape["size"]
+                                and shape["y"] <= mouse_y <= shape["y"] + shape["size"]
+                            ):
+                                if shape == target:
+                                    # end_time = time.time()
+                                    # reaction_time = end_time - start_time
+                                    # self.results.append({"level": level, "time": reaction_time})
+                                    # print(f"Correct! Reaction time: {reaction_time:.3f} seconds.")
+                                    event_found = True
+                                else:
+                                    print("Incorrect shape! Try again.")
+                        elif shape["type"] == "circle":
+                            # Check if the click is inside the circle
+                            distance = ((mouse_x - shape["x"]) ** 2 + (mouse_y - shape["y"]) ** 2) ** 0.5
+                            if distance <= shape["size"]:
+                                if shape == target:
+                                    # end_time = time.time()
+                                    # reaction_time = end_time - start_time
+                                    # self.results.append({"test_no": 3,"level": level, "time": reaction_time})
+                                    # print(f"Correct! Reaction time: {reaction_time:.3f} seconds.")
+                                    event_found = True
+                                else:
+                                    print("Incorrect shape! Try again.")
+
+
+    def tutorial_menu(self):
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Tutorial")
+        self.label = tk.Label(self.dialog, text="Do you want to go through a tutorial?")
+        self.label.pack()
+
+        self.yes_button = tk.Button(
+            self.dialog, text="Yes", command=lambda: [self.dialog.destroy(), self.tutorial()]
+        )
+        self.yes_button.pack()
+
+        self.no_button = tk.Button(self.dialog, text="No", command=self.dialog.destroy)
+        self.no_button.pack()
+
+        self.dialog.wait_window()
+
+
     def run_level(self, level, num_figures=5):
-        """Run a single level."""
+
+        self.tutorial_menu()
+        
         self.draw_random_figures(num_figures)
         target = self.get_target_instruction()
         instruction_text = f"Click on the {target['type']} with color {target['color_name']}."
@@ -119,7 +185,7 @@ class Test3:
         
         file_exists = os.path.isfile("Test3_results.csv")
         with open("Test3_results.csv", mode="a", newline="") as csv_file:
-            fieldnames = ["level", "time"]
+            fieldnames = ["test_no", "level", "time"]
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
             if not file_exists:
                 writer.writeheader()

@@ -138,7 +138,7 @@ class Test3:
         self.label.pack()
 
         self.continue_button = tk.Button(
-            self.dialog, text="Continue", command=lambda: self.tutorial())
+            self.dialog, text="Continue", command=lambda: self.tutorial_menu())
         self.continue_button.pack()
 
         self.dialog.wait_window()
@@ -191,7 +191,7 @@ class Test3:
                                 else:
                                     print("Incorrect shape! Try again.")
         self.continue_button = tk.Button(
-            self.dialog, text="Continue", command=lambda: self.tutorial())
+            self.dialog, text="Continue", command=lambda: self.dialog.destroy)
         self.continue_button.pack()
 
         self.dialog.wait_window()
@@ -199,6 +199,7 @@ class Test3:
 
     def game_loop(self):
        
+       self.introduction()
        self.tutorial_menu()
 
        for level in range(1, 4):
@@ -229,8 +230,3 @@ class Test3:
         plt.ylabel("Reaction Time (s)")
         plt.title("Reaction Time per Level")
         plt.show()
-
-
-if __name__ == "__main__":
-    test = Test3()
-    test.game_loop()

@@ -138,7 +138,7 @@ class Test3:
         self.label.pack()
 
         self.continue_button = tk.Button(
-            self.dialog, text="Continue", command=lambda: self.tutorial_menu())
+            self.dialog, text="Continue", command=lambda: [self.dialog.destroy(),self.tutorial_menu()])
         self.continue_button.pack()
 
         self.dialog.wait_window()

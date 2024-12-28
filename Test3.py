@@ -105,6 +105,14 @@ class Test3:
                                 else:
                                     print("Incorrect shape! Try again.")
 
+        print('End of tutorial')
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Tutorial")
+
+        self.continue_button = tk.Button(
+            self.dialog, text="Continue", command=lambda: self.dialog.destroy())
+        self.continue_button.pack()
+        self.dialog.wait_window()
 
     def tutorial_menu(self):
         self.dialog = tk.Toplevel()
@@ -119,6 +127,19 @@ class Test3:
 
         self.no_button = tk.Button(self.dialog, text="No", command=self.dialog.destroy)
         self.no_button.pack()
+
+        self.dialog.wait_window()
+
+
+    def introduction(self):
+        self.dialog = tk.Toplevel()
+        self.dialog.title("Test Decription")
+        self.label = tk.Label(self.dialog, text="Your goal is to select appropriate object given by a terminal instruction from a set of randomly generated objects on the screen")
+        self.label.pack()
+
+        self.continue_button = tk.Button(
+            self.dialog, text="Continue", command=lambda: self.tutorial())
+        self.continue_button.pack()
 
         self.dialog.wait_window()
 
@@ -169,6 +190,12 @@ class Test3:
                                     event_found = True
                                 else:
                                     print("Incorrect shape! Try again.")
+        self.continue_button = tk.Button(
+            self.dialog, text="Continue", command=lambda: self.tutorial())
+        self.continue_button.pack()
+
+        self.dialog.wait_window()
+
 
     def game_loop(self):
        

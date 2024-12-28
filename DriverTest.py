@@ -249,41 +249,74 @@ class Test2:
         return start_time
 
 
-    def run_level(self,color,stimulus, duration,level):
+    # def run_level(self,color,stimulus, duration,level):
+    #     self.screen.fill(self.WHITE)
+
+    #     rect_center = (random.randint(0, 800), random.randint(0, 600))
+    #     rect_length = 100
+
+    #     pygame.draw.rect(self.screen, color, (rect_center[0], rect_center[1], rect_length, rect_length))
+    #     pygame.display.update()
+
+    #     init = False
+    #     start_time = 0
+    #     event_found = False
+    #     while not event_found:
+    #         events = pygame.event.get()
+    #         for event in events:
+
+    #             if not init:
+    #                 start_time= self.init_level(duration,stimulus)
+    #                 init = True
+
+    #             if event.type == pygame.MOUSEBUTTONDOWN:
+
+    #                 mouse_x, mouse_y = event.pos
+    #                 distance = ((mouse_x - rect_center[0]) ** 2 + (mouse_y - rect_center[1]) ** 2) ** 0.5
+
+    #                 # it's similar to a radius
+    #                 if distance <= rect_length/2:
+
+    #                     end_time = time.time()
+    #                     reaction_time = end_time - start_time
+    #                     self.results.append({"test_no":2,"level":level,"time":reaction_time})
+    #                     event_found = True
+    #                     break
+
+    #     self.show_result_dialog()
+
+    def run_level(self, color, stimulus, duration, level):
         self.screen.fill(self.WHITE)
 
-        rect_center = (random.randint(0, 800), random.randint(0, 600))
-        rect_length = 100
+        # Randomize rectangle position
+        rect_x = random.randint(0, 700)  # Ensure the rectangle fits within the screen width
+        rect_y = random.randint(0, 500)  # Ensure the rectangle fits within the screen height
+        rect_width, rect_height = 100, 100  # Rectangle size
 
-        pygame.draw.rect(self.screen, color, (rect_center[0], rect_center[1], rect_length, rect_length))
+        # Draw the rectangle
+        pygame.draw.rect(self.screen, color, (rect_x, rect_y, rect_width, rect_height))
         pygame.display.update()
 
-        init = False
-        start_time = 0
+        # Play audio after a delay
+        start_time = None
+        pygame.time.delay(int(duration * 1000))  # Wait before playing audio
+        self.audio_stimulus(stimulus)
+        start_time = time.time()
+
+        # Wait for user interaction
         event_found = False
         while not event_found:
-            events = pygame.event.get()
-            for event in events:
-
-                if not init:
-                    start_time= self.init_level(duration,stimulus)
-                    init = True
-
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
                 if event.type == pygame.MOUSEBUTTONDOWN:
-
                     mouse_x, mouse_y = event.pos
-                    distance = ((mouse_x - rect_center[0]) ** 2 + (mouse_y - rect_center[1]) ** 2) ** 0.5
-
-                    # it's similar to a radius
-                    if distance <= rect_length/2:
-
-                        end_time = time.time()
-                        reaction_time = end_time - start_time
-                        self.results.append({"test_no":2,"level":level,"time":reaction_time})
+                    # Check if the click is inside the rectangle
+                    if rect_x <= mouse_x <= rect_x + rect_width and rect_y <= mouse_y <= rect_y + rect_height:
+                        reaction_time = time.time() - start_time
+                        self.results.append({"test_no": 2, "level": level, "time": reaction_time})
                         event_found = True
-                        break
-
-        self.show_result_dialog()
 
 
     def first_level(self):

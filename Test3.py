@@ -33,6 +33,7 @@ class Test3:
         self.shapes = []  
         self.results = []
 
+
     def draw_random_figures(self, num_figures=5):
         
         self.shapes = []
@@ -53,6 +54,7 @@ class Test3:
                 pygame.draw.circle(self.screen, color_value, (x, y), size)
 
         pygame.display.update()
+
 
     def get_target_instruction(self):
         """Select a target and provide an instruction."""
@@ -114,6 +116,7 @@ class Test3:
             self.dialog, text="Continue", command=lambda: self.dialog.destroy())
         self.continue_button.pack()
         self.dialog.wait_window()
+
 
     def tutorial_menu(self):
         self.dialog = tk.Toplevel()
@@ -191,18 +194,8 @@ class Test3:
                                     event_found = True
                                 else:
                                     print("Incorrect shape! Try again.")
-        
-        # self.dialog = tk.Toplevel()
-        # self.dialog.title("Level Results")
-        # self.label = tk.Label(self.dialog, text=f"Reaction time: {reaction_time:.3f}")
-        # self.label.pack()
-
-        # self.continue_button = tk.Button(
-        #     self.dialog, text="Continue", command=lambda: self.dialog.destroy())
-        # self.continue_button.pack()
-
-        # self.dialog.wait_window()
         self.show_result_dialog()
+
 
     def show_result_dialog(self):
         self.dialog = tk.Toplevel()
@@ -221,8 +214,7 @@ class Test3:
     def game_loop(self):
        
        self.introduction()
-       self.tutorial_menu()
-
+       # 3 levels
        for level in range(1, 4):
             print(f"Starting Level {level}...")
             self.run_level(level)
@@ -230,6 +222,7 @@ class Test3:
        self.save_results()
        self.show_results()
        pygame.quit()
+
 
     def save_results(self):
         
@@ -240,6 +233,7 @@ class Test3:
             if not file_exists:
                 writer.writeheader()
             writer.writerows(self.results)
+
 
     def show_results(self):
         

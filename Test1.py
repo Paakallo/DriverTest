@@ -102,6 +102,7 @@ class Test1:
 
         self.show_result_dialog()
 
+
     def introduction(self):
         self.dialog = tk.Toplevel()
         self.dialog.title("Test Decription")
@@ -114,6 +115,7 @@ class Test1:
 
         self.dialog.wait_window()
 
+
     def run_test(self):
         
         self.introduction()
@@ -123,6 +125,7 @@ class Test1:
         self.save_results()
         self.show_results()
         pygame.quit()
+
 
     def show_result_dialog(self):
         self.dialog = tk.Toplevel()

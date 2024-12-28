@@ -39,22 +39,13 @@ class Test2:
 
         self.results = []
 
-
+    # audio signal definition
     def audio_stimulus(self,stimuli):
         stream = self.p.open(format=pyaudio.paFloat32, channels=1, rate=self.fs, output=True)
         stream.write(stimuli.astype(np.float32).tobytes())
         stream.stop_stream()
         stream.close()
 
-
-    def cool_down(self,wait1:time.time, endtime:int):
-        wait_time = 0
-        while wait_time < endtime + 1:
-            wait2 = time.time()
-            wait_time = wait2 - wait1
-            if wait_time >= endtime:
-                break
- 
 
     def tutorial_menu(self):
         self.dialog = tk.Toplevel()
@@ -77,6 +68,9 @@ class Test2:
         self.screen.fill(self.WHITE)
         pygame.draw.rect(self.screen, self.RANDOM, (350, 250, 100, 100))
         pygame.display.update()
+
+        pygame.time.delay(int(1000))  # Wait before playing audio
+        self.audio_stimulus(self.audio_stimulus1)
 
         event_found = False
         while not event_found:
@@ -116,6 +110,7 @@ class Test2:
         self.continue_button.pack()
 
         self.dialog.wait_window()
+
 
     def run_level(self, color, stimulus, duration, level):
         self.screen.fill(self.WHITE)
@@ -169,8 +164,10 @@ class Test2:
     def first_level(self):
         self.run_level(self.RED,self.audio_stimulus1,2,1)      
 
+
     def second_level(self):
         self.run_level(self.GREEN,self.audio_stimulus2,1,2)
+
 
     def third_level(self):
         self.run_level(self.BLUE,self.audio_stimulus2,0.75,3)

@@ -125,7 +125,6 @@ class Test3:
 
     def run_level(self, level, num_figures=5):
 
-        self.tutorial_menu()
         
         self.draw_random_figures(num_figures)
         target = self.get_target_instruction()
@@ -173,13 +172,15 @@ class Test3:
 
     def game_loop(self):
        
-        for level in range(1, 4):
+       self.tutorial_menu()
+
+       for level in range(1, 4):
             print(f"Starting Level {level}...")
             self.run_level(level)
 
-        self.save_results()
-        self.show_results()
-        pygame.quit()
+       self.save_results()
+       self.show_results()
+       pygame.quit()
 
     def save_results(self):
         
